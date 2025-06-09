@@ -87,8 +87,7 @@ production:
   primary: &primary_production
     <<: *default
     database: automation_part_production
-    username: automation_part
-    password: <%= ENV["AUTOMATION_PART_DATABASE_PASSWORD"] %>
+    password: <%= ENV["POSTGRES_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: automation_part_production_cache
