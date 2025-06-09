@@ -78,22 +78,18 @@ RUN apt-get update -qq && \
 
 
 # Install JavaScript dependencies
-ARG NODE_VERSION=23.5.0
-ARG YARN_VERSION=1.22.22
-ENV PATH=/usr/local/node/bin:$PATH
-RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
-    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
-    npm install -g yarn@$YARN_VERSION && \
-    rm -rf /tmp/node-build-master
+RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g yarn
+
+# install palywright
+RUN npm install playwright && ./node_modules/.bin/playwright install
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
-
-# install palywright
-RUN npm install playwright && ./node_modules/.bin/playwright install
 
 # Copy application code
 COPY . .
