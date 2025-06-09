@@ -60,6 +60,8 @@ RUN mkdir -p /opt \
 # 清理临时文件
 RUN rm -rf /tmp/*
 
+WORKDIR /rails
+
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
