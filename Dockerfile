@@ -97,7 +97,7 @@ RUN apt-get update -qq && apt-get install -y \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install nodejs
-RUN curl -fsSL https://deb.nodesource.com/setup_23.10 | bash - && \
+RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash - && \
     apt-get install -y nodejs && \
     npm install playwright
 
