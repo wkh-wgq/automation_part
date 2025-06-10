@@ -66,6 +66,25 @@ RUN mkdir -p /opt \
 # 清理临时文件
 RUN rm -rf /tmp/*
 
+# Install packages needed to build gems
+RUN apt-get update -qq && apt-get install -y \
+    xvfb \
+    xauth \
+    x11-utils \
+    fonts-liberation \
+    libnss3 \
+    libxss1 \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libgtk-3-0 \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Install nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install playwright
+
 WORKDIR /rails
 
 # Set production environment
@@ -84,22 +103,8 @@ RUN apt-get update -qq && apt-get install -y \
     libpq-dev \
     libyaml-dev \
     pkg-config \
-    xvfb \
-    xauth \
-    x11-utils \
-    fonts-liberation \
-    libnss3 \
-    libxss1 \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libgtk-3-0 \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives
-
-# Install nodejs
-RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install playwright
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
