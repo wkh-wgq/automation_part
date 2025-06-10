@@ -19,48 +19,48 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# USER root
+USER root
 
-# # 安装 Edge 和 chrome 所需的依赖库
-# RUN apt-get update && apt-get install -y \
-#     wget \
-#     unzip \
-#     vim \
-#     libglib2.0-0 \
-#     libnss3 \
-#     libgdk-pixbuf2.0-0 \
-#     libgtk-3-0 \
-#     libxss1 \
-#     libasound2 \
-#     libxtst6 \
-#     libgbm1 \
-#     libxshmfence1 \
-#     fonts-liberation \
-#     libvulkan1 \
-#     xdg-utils \
-#     --no-install-recommends \
-#     && rm -rf /var/lib/apt/lists/*
+# 安装 Edge 和 chrome 所需的依赖库
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip \
+    vim \
+    libglib2.0-0 \
+    libnss3 \
+    libgdk-pixbuf2.0-0 \
+    libgtk-3-0 \
+    libxss1 \
+    libasound2 \
+    libxtst6 \
+    libgbm1 \
+    libxshmfence1 \
+    fonts-liberation \
+    libvulkan1 \
+    xdg-utils \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 
-# # 设置工作目录
-# WORKDIR /tmp
+# 设置工作目录
+WORKDIR /tmp
 
-# # 安装 Microsoft Edge
-# RUN wget -q -O /tmp/microsoft-edge.deb https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_133.0.3065.92-1_amd64.deb \
-#     && apt-get install /tmp/microsoft-edge.deb
+# 安装 Microsoft Edge
+RUN wget -q -O /tmp/microsoft-edge.deb https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_133.0.3065.92-1_amd64.deb \
+    && apt-get install /tmp/microsoft-edge.deb
 
-# # 下载 Chrome 和 ChromeDriver
-# RUN wget https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.35/linux64/chrome-linux64.zip
+# 下载 Chrome 和 ChromeDriver
+RUN wget https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.35/linux64/chrome-linux64.zip
 
-# # 解压 Chrome 和 ChromeDriver
-# RUN mkdir -p /opt \ 
-#     && unzip chrome-linux64.zip -d /opt/chrome \
-#     && mv /opt/chrome/chrome-linux64/chrome /usr/local/bin/chrome \
-#     && chmod +x /usr/local/bin/chrome
+# 解压 Chrome 和 ChromeDriver
+RUN mkdir -p /opt \ 
+    && unzip chrome-linux64.zip -d /opt/chrome \
+    && mv /opt/chrome/chrome-linux64/chrome /usr/local/bin/chrome \
+    && chmod +x /usr/local/bin/chrome
 
-# # 清理临时文件
-# RUN rm -rf /tmp/*
+# 清理临时文件
+RUN rm -rf /tmp/*
 
-# WORKDIR /rails
+WORKDIR /rails
 
 # Set production environment
 ENV RAILS_ENV="production" \
@@ -72,20 +72,28 @@ ENV RAILS_ENV="production" \
 FROM base AS build
 
 # Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+RUN apt-get update -qq && apt-get install -y \
+    build-essential \
+    git \
+    libpq-dev \
+    libyaml-dev \
+    pkg-config \
+    xvfb \
+    xauth \
+    x11-utils \
+    fonts-liberation \
+    libnss3 \
+    libxss1 \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libgtk-3-0 \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-
-# Install JavaScript dependencies
-ARG NODE_VERSION=23.5.0
-ARG YARN_VERSION=1.22.22
-ENV PATH=/usr/local/node/bin:$PATH
-RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
-    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
-    npm install -g yarn@$YARN_VERSION && \
-    npm install playwright && \
-    rm -rf /tmp/node-build-master
+# Install nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_23.10 | bash - && \
+    apt-get install -y nodejs && \
+    npm install playwright
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
