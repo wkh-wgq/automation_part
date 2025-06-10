@@ -1,0 +1,12 @@
+<% content_for :title, "Editing pokemon" %>
+
+<h1>Editing pokemon</h1>
+
+<%= render "form", sites_pokemon: @sites_pokemon %>
+
+<br>
+
+<div>
+  <%= link_to "Show this pokemon", @sites_pokemon %> |
+  <%= link_to "Back to pokemons", sites_pokemons_path %>
+</div>
