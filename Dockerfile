@@ -14,6 +14,12 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 # Rails app lives here
 WORKDIR /rails
 
+# 替换阿里源
+RUN touch /etc/apt/sources.list \
+    && echo "deb http://mirrors.aliyun.com/debian stable main contrib non-free" > /etc/apt/sources.list \
+    && echo "deb http://mirrors.aliyun.com/debian stable-updates main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb http://mirrors.aliyun.com/debian-security stable-security main contrib non-free" >> /etc/apt/sources.list
+
 # Install base packages
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
@@ -48,10 +54,10 @@ WORKDIR /tmp
 RUN wget -q -O /tmp/microsoft-edge.deb https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_133.0.3065.92-1_amd64.deb \
     && apt-get install /tmp/microsoft-edge.deb
 
-# 下载 Chrome 和 ChromeDriver
+# 下载 Chrome
 RUN wget https://storage.googleapis.com/chrome-for-testing-public/134.0.6998.35/linux64/chrome-linux64.zip
 
-# 解压 Chrome 和 ChromeDriver
+# 解压 Chrome
 RUN mkdir -p /opt \ 
     && unzip chrome-linux64.zip -d /opt/chrome \
     && mv /opt/chrome/chrome-linux64/chrome /usr/local/bin/chrome \
