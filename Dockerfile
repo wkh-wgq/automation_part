@@ -82,8 +82,7 @@ RUN apt-get update -qq && apt-get install -y \
 
 # Install nodejs
 RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install playwright
+    apt-get install -y nodejs
 
 WORKDIR /rails
 
@@ -131,11 +130,12 @@ FROM base
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /rails /rails
 
+RUN npm install playwright
 # Run and own only the runtime files as a non-root user for security
-# RUN groupadd --system --gid 1000 rails && \
-#     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
-#     chown -R rails:rails db log storage tmp
-# USER 1000:1000
+RUN groupadd --system --gid 1000 rails && \
+    useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
+    chown -R rails:rails db log storage tmp
+USER 1000:1000
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]

@@ -10,7 +10,7 @@ module BrowserAutomation
       # 发送注册链接的邮件
       def send_email
         @retry_count = 0
-        click_register(email)
+        click_register
         if page.url == "https://www.pokemoncenter-online.com/temporary-customer-complete/"
           logger.info "账号(#{email})发送注册邮完成"
           true
