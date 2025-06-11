@@ -142,5 +142,5 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Thruster by default, this can be overwritten at runtime
 EXPOSE 80
-# CMD ["xvfb-run", "./bin/thrust", "./bin/rails", "server"]
-CMD ["bash", "-c", "xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' ./bin/thrust ./bin/rails server"]
+CMD ["xvfb-run", "./bin/thrust", "./bin/rails", "server"]
+# CMD ["bash", "-c", "xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' ./bin/thrust ./bin/rails server"]

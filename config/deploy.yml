@@ -21,7 +21,7 @@ proxy:
   ssl: true
   host: auto.usingnow.tech
   healthcheck:
-    timeout: 20
+    timeout: 60
 
 # Credentials for your image host.
 registry:
