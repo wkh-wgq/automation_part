@@ -20,6 +20,8 @@ servers:
 proxy:
   ssl: true
   host: auto.usingnow.tech
+  healthcheck:
+    timeout: 20
 
 # Credentials for your image host.
 registry:
