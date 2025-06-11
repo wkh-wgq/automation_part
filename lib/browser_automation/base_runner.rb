@@ -4,6 +4,8 @@ module BrowserAutomation
     delegate :logger, to: :Rails
     MU, SIGMA = 0.5, 0.15
 
+    PLAYWRIGHT_URL = ENV.fetch("PLAYWRIGHT_URL", "ws://localhost:8888/ws")
+
     USER_AGENTS = [
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
       # "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
@@ -28,7 +30,7 @@ module BrowserAutomation
       platform = user_agent.include?("Windows") ? '"Windows"' : '"macOS"'
       version = user_agent.split("Chrome/")[1].split(".").first
       ua = "\"Chromium\";v=\"#{version}\", \"#{browser == 'msedge' ? 'Microsoft Edge' : 'Google Chrome'}\";v=\"#{version}\", \"Not.A/Brand\";v=\"99\""
-      @playwright_exec = Playwright.create(playwright_cli_executable_path: "./node_modules/.bin/playwright")
+      @playwright_exec = Playwright.connect_to_playwright_server("#{PLAYWRIGHT_URL}?browser=#{browser}")
       user_data_dir = File.join(Dir.pwd, "tmp", "user_data", account_dir_name)
       @context = @playwright_exec.playwright.chromium.launch_persistent_context(
         user_data_dir,

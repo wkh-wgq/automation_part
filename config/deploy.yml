@@ -20,8 +20,6 @@ servers:
 proxy:
   ssl: true
   host: auto.usingnow.tech
-  healthcheck:
-    timeout: 60
 
 # Credentials for your image host.
 registry:
@@ -53,6 +51,7 @@ env:
     # Match this to any external database server to configure Active Record correctly
     # Use automation_part-db for a db accessory server on same machine via local kamal docker network.
     DB_HOST: automation_part-db
+    PLAYWRIGHT_URL: automation_part-playwright
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
@@ -130,3 +129,7 @@ accessories:
         - POSTGRES_PASSWORD
     directories:
       - postgres-data:/var/lib/postgresql/data
+  playwright:
+    image: wangkaihua/playwright_with_xvfb:v1
+    host: auto.usingnow.tech
+    port: '127.0.0.1:8888:8888'
