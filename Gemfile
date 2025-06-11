@@ -62,4 +62,4 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "playwright-ruby-client", "~> 1.52"
+gem "playwright-ruby-client", "~> 1.51"
