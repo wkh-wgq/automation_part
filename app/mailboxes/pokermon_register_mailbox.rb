@@ -8,7 +8,13 @@ class PokermonRegisterMailbox < ApplicationMailbox
     return logger.warn "邮件中没有找到注册链接！" unless match
     register_link = match[1].strip
     email = mail.to[0]
-    logger.info "收到(#{email})的bkm注册邮件,注册链接:#{register_link}"
-    # todo 注册逻辑
+    logger.info "收到(#{email})的pokermon注册邮件，注册链接:#{register_link}"
+    virtual_user = VirtualUser.where(email: email).first
+    return logger.warn "邮箱(#{email})未查询到虚拟用户！" unless virtual_user
+    pokermon_info = virtual_user.pokermon
+    return logger.warn "邮箱(#{email})未查询到宝可梦注册信息" unless pokermon_info
+    Rails.cache.write("pokermon.email-#{email}-register_link", register_link, expires_in: 20.minutes)
+    logger.info "异步注册宝可梦账号(#{email})..."
+    PokermonRegisterJob.perform_later(email, register_link)
   end
 end
