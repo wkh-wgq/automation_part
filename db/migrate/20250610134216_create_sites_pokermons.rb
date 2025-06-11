@@ -1,6 +1,6 @@
-class CreateSitesPokemons < ActiveRecord::Migration[8.0]
+class CreateSitesPokermons < ActiveRecord::Migration[8.0]
   def change
-    create_table :sites_pokemons do |t|
+    create_table :sites_pokermons do |t|
       t.string :nickname
       t.string :kana
       t.string :registry_cellphone
