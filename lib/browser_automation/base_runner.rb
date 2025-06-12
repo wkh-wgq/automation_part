@@ -4,17 +4,18 @@ module BrowserAutomation
     delegate :logger, to: :Rails
     MU, SIGMA = 0.5, 0.15
 
-    PLAYWRIGHT_URL = ENV.fetch("PLAYWRIGHT_URL", "ws://localhost:8888/ws")
+    PLAYWRIGHT_HOST = ENV.fetch("PLAYWRIGHT_HOST", "localhost")
+    PLAYWRIGHT_PORT = ENV.fetch("PLAYWRIGHT_PORT", "8888")
 
     USER_AGENTS = [
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
-      # "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
-      # "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0",
-      # "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0"
-      # "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0",
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"
     ]
     VIEWPORTS = [
       { width: 1366, height: 768 },
@@ -30,7 +31,7 @@ module BrowserAutomation
       platform = user_agent.include?("Windows") ? '"Windows"' : '"macOS"'
       version = user_agent.split("Chrome/")[1].split(".").first
       ua = "\"Chromium\";v=\"#{version}\", \"#{browser == 'msedge' ? 'Microsoft Edge' : 'Google Chrome'}\";v=\"#{version}\", \"Not.A/Brand\";v=\"99\""
-      @playwright_exec = Playwright.connect_to_playwright_server("#{PLAYWRIGHT_URL}?browser=#{browser}")
+      @playwright_exec = Playwright.connect_to_playwright_server("ws://#{PLAYWRIGHT_HOST}:#{PLAYWRIGHT_PORT}/ws?browser=chromium")
       user_data_dir = File.join(Dir.pwd, "tmp", "user_data", account_dir_name)
       @context = @playwright_exec.playwright.chromium.launch_persistent_context(
         user_data_dir,
