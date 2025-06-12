@@ -7,7 +7,8 @@ class PokermonRegisterMailbox < ApplicationMailbox
     match = text.match(/▼URL\s*\n\s*(https:\/\/www\.pokemoncenter-online\.com\/new-customer\/\?token=[^\s]+)/i)
     return logger.warn "邮件中没有找到注册链接！" unless match
     register_link = match[1].strip
-    email = mail.to[0]
+    email = decoded_text[/收件人:\s*([^\s\r\n<>]+)/, 1]
+    return logger.warn "邮件中没有找到邮箱地址！" unless email
     logger.info "收到(#{email})的pokermon注册邮件，注册链接:#{register_link}"
     virtual_user = VirtualUser.where(email: email).first
     return logger.warn "邮箱(#{email})未查询到虚拟用户！" unless virtual_user

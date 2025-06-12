@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_10_125849) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_10_134216) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -51,6 +51,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_10_125849) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "sites_pokermons", force: :cascade do |t|
+    t.string "nickname"
+    t.string "kana"
+    t.string "registry_cellphone"
+    t.string "registry_postcode"
+    t.string "registry_fandi"
+    t.string "reg_password"
+    t.bigint "virtual_user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["virtual_user_id"], name: "index_sites_pokermons_on_virtual_user_id"
+  end
+
+  create_table "virtual_users", force: :cascade do |t|
+    t.string "last_name"
+    t.string "first_name"
+    t.string "gender"
+    t.string "email"
+    t.string "civ_style"
+    t.date "birthdate"
+    t.string "domain"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "sites_pokermons", "virtual_users"
 end
