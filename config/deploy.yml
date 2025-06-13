@@ -131,6 +131,6 @@ accessories:
     directories:
       - postgres-data:/var/lib/postgresql/data
   playwright:
-    image: wangkaihua/playwright_with_xvfb:v5
+    image: wangkaihua/playwright_with_xvfb:v6
     host: auto.usingnow.tech
     port: '127.0.0.1:8888:8888'
