@@ -54,6 +54,7 @@ module BrowserAutomation
         ignoreDefaultArgs: [ "--enable-automation" ],
         viewport: VIEWPORTS.sample
       )
+      logger.info "驱动加载完成"
       @page = @context.pages.first
     end
 

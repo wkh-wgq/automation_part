@@ -43,7 +43,7 @@ env:
     SOLID_QUEUE_IN_PUMA: true
 
     # Set number of processes dedicated to Solid Queue (default: 1)
-    JOB_CONCURRENCY: 3
+    # JOB_CONCURRENCY: 3
 
     # Set number of cores available to the application on each server (default: 1).
     # WEB_CONCURRENCY: 2
@@ -131,6 +131,6 @@ accessories:
     directories:
       - postgres-data:/var/lib/postgresql/data
   playwright:
-    image: wangkaihua/playwright_with_xvfb:v3
+    image: wangkaihua/playwright_with_xvfb:v4
     host: auto.usingnow.tech
     port: '127.0.0.1:8888:8888'
