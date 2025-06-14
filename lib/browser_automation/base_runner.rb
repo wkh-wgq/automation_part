@@ -82,15 +82,19 @@ module BrowserAutomation
       return if element_in_viewport?(element)
       while !element_in_viewport?(element) do
         break if at_page_bottom?
-        page.evaluate <<~JS
-          window.scrollBy({
-            top: #{rand(scorll_length)},
-            left: 0,
-            behavior: 'smooth'
-          });
-        JS
+        human_like_move(scorll_length: scorll_length, delay: delay)
         sleep(rand(delay))
       end
+    end
+
+    def human_like_move(scorll_length: (200..400), delay: (0.5..1.0))
+      page.evaluate <<~JS
+        window.scrollBy({
+          top: #{rand(scorll_length)},
+          left: 0,
+          behavior: 'smooth'
+        });
+      JS
     end
 
     def human_like_move_to_top
