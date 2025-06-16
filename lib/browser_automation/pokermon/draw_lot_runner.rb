@@ -4,12 +4,11 @@ module BrowserAutomation
       # 抽奖页面的链接
       LOTTERY_LINK = "https://www.pokemoncenter-online.com/lottery/landing-page.html"
 
-      def initialize(email:, password:, draw_lot_quantity:)
+      def initialize(email:, password:)
         initialize_page(email.split(".").first)
         @login_retry_count = 0
         @email = email
         @password = password
-        @draw_lot_quantity = draw_lot_quantity.to_i
       end
 
       def run
@@ -75,10 +74,15 @@ module BrowserAutomation
         human_delay(1.0, 3.0)
         human_like_click("#step3Btn")
         human_delay(5.0, 8.0)
-        ul = page.locator(".comOrderList")
-        @draw_lot_quantity.times do |i|
-          li = ul.locator("li").nth(i)
-          human_like_move
+        lis = page.locator("ul.comOrderList > li")
+        raise "抽奖失败！" if lis.count == 0
+        lis.count.times do |i|
+          li = lis.nth(i)
+          status = li.locator(".ttl").text_content
+          logger.debug "第#{i + 1}开始，状态为(#{status})"
+          next if status == "受付完了"
+          return if status == "受付終了"
+          human_like_move(scorll_length: ((400 * i)..(450 * i))) if i > 0
           human_delay
           human_like_click_of_element(li.locator("text=詳しく見る"))
           # 滚动页面到元素位置
@@ -91,7 +95,7 @@ module BrowserAutomation
           human_like_click_of_element(li.locator("a.popup-modal.on"))
           human_delay
           human_like_click("#applyBtn")
-          human_delay(4.0, 6.0)
+          human_delay(5.0, 7.0)
           if li.locator(".ttl").text_content == "受付完了"
             logger.info "用户(#{@email})抽奖第#{i+1}成功"
           else
