@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :parsed_email_records
   namespace :sites do
     resources :pokemons
   end

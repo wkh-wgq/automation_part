@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  inbound_email_id: 1
+  email: MyString
+  type: 
+  data: 
+  sent_at: MyString
+
+two:
+  inbound_email_id: 1
+  email: MyString
+  type: 
+  data: 
+  sent_at: MyString

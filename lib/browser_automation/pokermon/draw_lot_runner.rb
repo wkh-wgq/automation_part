@@ -79,7 +79,7 @@ module BrowserAutomation
         lis.count.times do |i|
           li = lis.nth(i)
           status = li.locator(".ttl").text_content
-          logger.debug "第#{i + 1}开始，状态为(#{status})"
+          logger.debug "第#{i + 1}个抽奖商品，状态为(#{status})"
           next if status == "受付完了"
           return if status == "受付終了"
           human_like_move(scorll_length: ((400 * i)..(450 * i))) if i > 0
@@ -97,9 +97,9 @@ module BrowserAutomation
           human_like_click("#applyBtn")
           human_delay(5.0, 7.0)
           if li.locator(".ttl").text_content == "受付完了"
-            logger.info "用户(#{@email})抽奖第#{i+1}成功"
+            logger.info "用户(#{@email})抽奖(#{i + 1})成功"
           else
-            raise "用户(#{@email})抽奖第#{i+1}失败!"
+            raise "用户(#{@email})抽奖(#{i + 1})失败!"
           end
         end
       end

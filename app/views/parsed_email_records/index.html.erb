@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Parsed email records" %>
+
+<h1>Parsed email records</h1>
+
+<div id="parsed_email_records">
+  <% @parsed_email_records.each do |parsed_email_record| %>
+    <%= render parsed_email_record %>
+    <p>
+      <%= link_to "Show this parsed email record", parsed_email_record %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New parsed email record", new_parsed_email_record_path %>

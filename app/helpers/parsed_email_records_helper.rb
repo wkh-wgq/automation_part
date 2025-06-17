@@ -1,0 +1,2 @@
+module ParsedEmailRecordsHelper
+end

@@ -1,0 +1,11 @@
+<% content_for :title, "New parsed email record" %>
+
+<h1>New parsed email record</h1>
+
+<%= render "form", parsed_email_record: @parsed_email_record %>
+
+<br>
+
+<div>
+  <%= link_to "Back to parsed email records", parsed_email_records_path %>
+</div>

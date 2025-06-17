@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @parsed_email_record %>
+
+<div>
+  <%= link_to "Edit this parsed email record", edit_parsed_email_record_path(@parsed_email_record) %> |
+  <%= link_to "Back to parsed email records", parsed_email_records_path %>
+
+  <%= button_to "Destroy this parsed email record", @parsed_email_record, method: :delete %>
+</div>
