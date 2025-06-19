@@ -63,3 +63,6 @@ group :test do
 end
 
 gem "playwright-ruby-client", "~> 1.51"
+
+# 检测文本编码
+gem "rchardet", "~> 1.9"

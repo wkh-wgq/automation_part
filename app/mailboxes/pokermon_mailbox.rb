@@ -1,8 +1,12 @@
 class PokermonMailbox < ApplicationMailbox
   def body_decoded_text
-    return @decoded_text if @decoded_text
-    @decoded_text = mail.body.decoded.gsub(/\\x([0-9a-fA-F]{2})/) { |m| $1.hex.chr }.force_encoding("UTF-8")
-    @decoded_text.encode("UTF-8", invalid: :replace, undef: :replace)
+    @body_decoded_text ||= begin
+      raw_body = mail.body.decoded.gsub(/\\x([0-9a-fA-F]{2})/) { |m| $1.hex.chr }
+      # 解析原始编码
+      detected = CharDet.detect(raw_body)
+      original_encoding = detected["encoding"] || "UTF-8"
+      raw_body.force_encoding(original_encoding).encode("UTF-8", invalid: :replace, undef: :replace)
+    end
   end
 
   def recipient
