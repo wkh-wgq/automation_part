@@ -4,11 +4,12 @@ module BrowserAutomation
       # 抽奖页面的链接
       LOTTERY_LINK = "https://www.pokemoncenter-online.com/lottery/landing-page.html"
 
-      def initialize(email:, password:)
+      def initialize(email:, password:, index:)
         initialize_page(email.split(".").first)
         @login_retry_count = 0
         @email = email
         @password = password
+        @index = index.to_i
       end
 
       def run
@@ -84,11 +85,17 @@ module BrowserAutomation
           return if status == "受付終了"
           human_like_move(scorll_length: ((400 * i)..(450 * i))) if i > 0
           human_delay
+          human_like_move_to_element(li.locator("text=詳しく見る"))
+          human_delay
           human_like_click_of_element(li.locator("text=詳しく見る"))
-          # 滚动页面到元素位置
+          human_delay
+          radio_lis = li.locator("ul.radioList > li")
+          radio_element = radio_lis.nth(@index - 1).locator("p.radio label")
+          human_like_move_to_element(radio_element)
+          human_delay
+          human_like_click_of_element(radio_element)
+          human_delay
           human_like_move_to_element(li.get_by_label("応募要項に同意する"))
-          human_delay(1.0, 3.0)
-          human_like_click_of_element(li.locator("p.radio label"))
           human_delay
           human_like_click_of_element(li.get_by_label("応募要項に同意する"))
           human_delay
