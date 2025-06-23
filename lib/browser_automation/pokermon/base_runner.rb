@@ -10,10 +10,6 @@ module BrowserAutomation
       # 我的页面
       MY_URL = "https://www.pokemoncenter-online.com/mypage/"
 
-      def human_delay(min = 0.5, max = 2.0)
-        sleep(rand(min..max))
-      end
-
       def go_home_page
         page.goto(ROOT_URL, waitUntil: "domcontentloaded")
       end

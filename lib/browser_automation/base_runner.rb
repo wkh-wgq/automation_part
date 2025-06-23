@@ -85,6 +85,7 @@ module BrowserAutomation
         human_like_move(scorll_length: scorll_length, delay: delay)
         sleep(rand(delay))
       end
+      human_delay
     end
 
     def human_like_move(scorll_length: (200..400), delay: (0.5..1.0))
@@ -186,6 +187,7 @@ module BrowserAutomation
 
         sleep(rand(move_delay))
         sleep(rand(0.03..0.15)) if rand < 0.15  # 随机小停顿
+        human_delay
       end
 
       # 停顿后点击（更像人）
@@ -235,6 +237,10 @@ module BrowserAutomation
       u1, u2 = rand, rand
       z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math::PI * u2)
       MU + z0 * SIGMA
+    end
+
+    def human_delay(min = 0.5, max = 2.0)
+      sleep(rand(min..max))
     end
   end # end class BaseRunner
 end # end module BrowserAutomation

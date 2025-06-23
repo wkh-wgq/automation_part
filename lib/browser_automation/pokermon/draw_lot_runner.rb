@@ -29,7 +29,6 @@ module BrowserAutomation
       def login
         human_like_click("text=ログイン ／ 会員登録", wait_for_navigation: true)
         human_like_click("#login-form-email")
-        human_delay(0.5, 1.2)
         # 输入帐号
         page.locator("#login-form-email").type(@email, delay: rand(50..200))
         human_delay(0.4, 0.8)
@@ -86,23 +85,16 @@ module BrowserAutomation
           human_like_move(scorll_length: ((400 * i)..(450 * i))) if i > 0
           human_delay
           human_like_move_to_element(li.locator("text=詳しく見る"))
-          human_delay
           human_like_click_of_element(li.locator("text=詳しく見る"))
-          human_delay
           radio_lis = li.locator("ul.radioList > li")
           radio_element = radio_lis.nth(@index - 1).locator("p.radio label")
           human_like_move_to_element(radio_element)
-          human_delay
           human_like_click_of_element(radio_element)
-          human_delay
           human_like_move_to_element(li.get_by_label("応募要項に同意する"))
-          human_delay
           human_like_click_of_element(li.get_by_label("応募要項に同意する"))
-          human_delay
           human_like_click_of_element(li.locator("a.popup-modal.on"))
-          human_delay
           human_like_click("#applyBtn")
-          human_delay(5.0, 7.0)
+          human_delay(6.0, 8.0)
           if li.locator(".ttl").text_content == "受付完了"
             logger.info "用户(#{@email})抽奖(#{i + 1})成功"
           else

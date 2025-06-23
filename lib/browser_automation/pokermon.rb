@@ -18,5 +18,11 @@ module BrowserAutomation
         mobile: mobile
       )
     end
+
+    def self.draw_lot(email, password:, index:)
+      BrowserAutomation::Pokermon::DrawLotRunner.new(
+        email: email, password: password, index: index
+      ).run
+    end
   end
 end
