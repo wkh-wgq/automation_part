@@ -12,33 +12,24 @@ module BrowserAutomation
 
       def run
         go_home_page
-        %w[random_browse login shopping fill_order_no].each do |method|
+        %w[random_browse login validate_address shopping fill_order_no].each do |method|
           send(:execute_with_log, method)
         end
         logger.info "用户(#{email})下单完成"
-        "#{email}->#{@order_no}"
+        { success: true, email: email, order_no: @order_no }
+      rescue CustomError => e
+        { success: false, email: email, error_code: e.code }
       rescue Exception => _e
         logger.error "用户(#{email})下单流程异常结束"
-        false
+        { success: false, email: email }
       ensure
         close_page
       end
 
-      # def queue_up
-      #   return if page.title != QUEUE_UP_TITLE
-      #   logger.info "用户(#{email})开始排队"
-      #   while (page.wait_for_load_state(state: "load"); page.title == QUEUE_UP_TITLE)
-      #     sleep 5
-      #   end
-      #   # while !page.locator("#buttonConfirmRedirect").visible?
-      #   #   sleep 5
-      #   # end
-      #   logger.info "用户(#{email})排队完成"
-      #   sleep rand(4.0..8.0)
-      #   # 点击进入网站按钮
-      #   # page.locator("#buttonConfirmRedirect").click
-      #   # logger.info "用户(#{email})进入网站"
-      # end
+      def validate_address
+        # todo
+        # raise CustomError.new("收获地址错误", :incorrect_address)
+      end
 
       def login
         human_like_click("text=ログイン ／ 会員登録", wait_for_navigation: true)
