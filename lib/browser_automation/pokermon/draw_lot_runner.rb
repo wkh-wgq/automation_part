@@ -104,11 +104,11 @@ module BrowserAutomation
       end
 
       def execute_with_log(method)
-        logger.debug "用户(#{@email})抢单-(#{method})流程开始"
+        logger.debug "用户(#{@email})抽奖-(#{method})流程开始"
         send(method)
-        logger.debug "用户(#{@email})抢单-(#{method})流程结束"
+        logger.debug "用户(#{@email})抽奖-(#{method})流程结束"
       rescue Exception => e
-        logger.error "用户(#{@email})抢单-(#{method})流程异常：#{e.message}"
+        logger.error "用户(#{@email})抽奖-(#{method})流程异常：#{e.message}"
         raise e
       end
     end # end class DrawLotRunner
