@@ -46,6 +46,11 @@ module BrowserAutomation
           fail_result << result[:email]
         end
       end
+      {
+        succ_result: succ_result,
+        fail_result: fail_result,
+        error_address_result: error_address_result
+      }
     end
   end # end module Pokermon
 end # end module BrowseAutomation

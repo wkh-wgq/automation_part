@@ -3,6 +3,7 @@ module BrowserAutomation
     class OrderRunner < BaseRunner
       attr_reader :email
       def initialize(email, password:, products:)
+        logger.info "用户(#{email})开始下单流程"
         @email = email
         @password = password
         @products = products
@@ -98,7 +99,7 @@ module BrowserAutomation
         send(method)
         logger.debug "用户(#{email})下单-(#{method})流程结束"
       rescue Exception => e
-        logger.error "用户(#{email})下单-(#{method})流程异常：#{e.message}"
+        logger.error "用户(#{email})下单-(#{method})流程(#{page.url})异常：#{e.message}"
         logger.error e
         raise e
       end
