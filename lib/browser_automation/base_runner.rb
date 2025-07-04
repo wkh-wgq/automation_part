@@ -187,7 +187,7 @@ module BrowserAutomation
 
         sleep(rand(move_delay))
         sleep(rand(0.03..0.15)) if rand < 0.15  # 随机小停顿
-        human_delay
+        human_delay(0.3, 0.8)
       end
 
       # 停顿后点击（更像人）

@@ -8,7 +8,7 @@ module BrowserAutomation
     # 根据注册链接完成注册
     def self.register(email, register_link, name:, jp_name:, birthday:, gender:, postal_code:, street_number:, password:, mobile:)
       birthday = birthday.to_date if birthday.is_a?(String)
-      Pokermon::RegisterRunner.new(email: email).register(
+      Pokermon::RegisterRunner.new(email).register(
         register_link: register_link,
         name: name,
         jp_name: jp_name,
