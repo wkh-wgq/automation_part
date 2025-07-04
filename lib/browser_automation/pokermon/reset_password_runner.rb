@@ -65,11 +65,11 @@ module BrowserAutomation
 
         human_like_click("[name='dwfrm_profile_login_password']")
         human_delay(0.4, 0.8)
-        page.locator("[name='dwfrm_profile_login_password']").type("1234Asdf.", delay: rand(50..150))
+        page.locator("[name='dwfrm_profile_login_password']").type("1234qwer.", delay: rand(50..150))
 
         human_like_click("[name='dwfrm_profile_login_passwordconfirm']")
         human_delay(0.4, 0.8)
-        page.locator("[name='dwfrm_profile_login_passwordconfirm']").type("1234Asdf.", delay: rand(50..150))
+        page.locator("[name='dwfrm_profile_login_passwordconfirm']").type("1234qwer.", delay: rand(50..150))
 
         human_like_move_to_element(page.locator("text=更新する"))
         human_delay
