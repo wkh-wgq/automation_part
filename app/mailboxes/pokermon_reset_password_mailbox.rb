@@ -10,7 +10,7 @@ class PokermonResetPasswordMailbox < PokermonMailbox
         reset_password_link: reset_password_link
       }
     end
-    result = BrowserAutomation::Pokermon.reset_password(recipient, reset_password_link)
+    result = BrowserAutomation::Pokermon.reset_password(recipient, reset_link: reset_password_link)
     record = ExecuteRecord.of_email(recipient).for_action("reset_password").last
     if record
       record.update(result: { reset_password: result })
