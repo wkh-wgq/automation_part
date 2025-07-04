@@ -17,7 +17,7 @@ module BrowserAutomation
           logger.info "账号(#{email})发送密码重置邮件完成"
           true
         else
-          logger.warn "账号(#{email})发送密码重置邮件失败"
+          logger.error "账号(#{email})发送密码重置邮件失败"
           false
         end
       rescue Exception => e
@@ -77,11 +77,15 @@ module BrowserAutomation
 
         human_delay(5.0, 8.0)
 
-        if page.url != "https://www.pokemoncenter-online.com/regist-complete/"
-          raise "重置密码失败！"
+        if page.url == "https://www.pokemoncenter-online.com/regist-complete/"
+          logger.info "账号(#{email})重置密码成功"
+          true
+        else
+          logger.error "账号(#{email})重置密码失败"
+          false
         end
       rescue Exception => e
-        logger.error "账号(#{email})注册失败:#{e.message}"
+        logger.error "账号(#{email})重置密码报错:#{e.message}"
         logger.error e
         false
       ensure

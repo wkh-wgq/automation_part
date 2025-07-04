@@ -12,4 +12,6 @@ class ApplicationMailbox < ActionMailbox::Base
   routing ->(inbound_email) { inbound_email.mail.subject.include?("ご注文の件について") } => :pokermon_return_order
   # 注册账号
   routing ->(inbound_email) { inbound_email.mail.subject.include?("会員登録の手続きへ進む") } => :pokermon_register
+  # 重置密码
+  routing ->(inbound_email) { inbound_email.mail.subject.include?("変更手続きへ進む") } => :pokermon_reset_password
 end

@@ -2,7 +2,7 @@ module BrowserAutomation
   module Pokermon
     # 发送注册邮件
     def self.send_register_email(email)
-      Pokermon::RegisterRunner.new(email: email).send_email
+      Pokermon::RegisterRunner.new(email).send_email
     end
 
     # 根据注册链接完成注册
@@ -19,6 +19,16 @@ module BrowserAutomation
         password: password,
         mobile: mobile
       )
+    end
+
+    # 发送重置密码的邮件
+    def self.send_reset_password_email(email, birthday:)
+      BrowserAutomation::Pokermon::ResetPasswordRunner.new(email).send_email(birthday: birthday)
+    end
+
+    # 重置密码
+    def self.reset_password(email, reset_link:)
+      BrowserAutomation::Pokermon::ResetPasswordRunner.new(email).reset_password(reset_link: reset_link)
     end
 
     # 抽奖
