@@ -1,0 +1,2 @@
+class ExecuteRecord < ApplicationRecord
+end
