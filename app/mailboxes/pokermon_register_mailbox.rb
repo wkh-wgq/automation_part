@@ -5,7 +5,6 @@ class PokermonRegisterMailbox < PokermonMailbox
     # 提取注册链接
     register_link = text[/▼URL\s*\n\s*(https:\/\/www\.pokemoncenter-online\.com\/new-customer\/\?token=[^\s]+)/i, 1]
     create_parsed_email_record do |record|
-      record.type = "register"
       record.data = {
         register_link: register_link
       }

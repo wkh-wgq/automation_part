@@ -8,7 +8,6 @@ class PokermonCancelOrderMailbox < PokermonMailbox
     # 提取商品信息
     product_info = parse_product_info
     create_parsed_email_record do |record|
-      record.type = "cancel_order"
       record.data = {
         place_order_time: place_order_time.strip,
         order_number: order_number,

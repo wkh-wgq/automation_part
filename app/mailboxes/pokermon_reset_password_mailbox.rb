@@ -5,7 +5,6 @@ class PokermonResetPasswordMailbox < PokermonMailbox
     reset_password_link = text[/https:\/\/www\.pokemoncenter-online\.com\/account-set-new-password\/\?passwordResetToken=[^\s]+/]
 
     create_parsed_email_record do |record|
-      record.type = "reset_password"
       record.data = {
         reset_password_link: reset_password_link
       }

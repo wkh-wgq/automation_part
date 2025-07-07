@@ -2,7 +2,6 @@ class PokermonLotteryWonMailbox < PokermonMailbox
   def process
     product_info = parse_product_info
     create_parsed_email_record do |record|
-      record.type = "lottery_won"
       record.data = {
         products: product_info
       }

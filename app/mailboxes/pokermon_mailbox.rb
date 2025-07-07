@@ -18,12 +18,14 @@ class PokermonMailbox < ApplicationMailbox
   end
 
   def create_parsed_email_record(&block)
+    type = self.class.name.gsub("Pokermon", "").gsub("Mailbox", "").underscore
     record = ParsedEmailRecord.new(
       inbound_email_id: inbound_email.id,
       email: recipient,
       sent_at: sent_at.strip,
+      type: type
     )
-    block.call(record)
+    block.call(record) if block_given?
     record.save!
   end
 end
