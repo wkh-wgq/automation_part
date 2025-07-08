@@ -18,4 +18,6 @@ class ApplicationMailbox < ActionMailbox::Base
   routing ->(inbound_email) { inbound_email.mail.subject.include?("パスワード変更完了のお知らせ") } => :pokermon_reset_password_success
   # 参加抽奖成功
   routing ->(inbound_email) { inbound_email.mail.subject.include?("応募完了のお知らせ") } => :pokermon_draw_lot_success
+  # 注册成功
+  routing ->(inbound_email) { inbound_email.mail.subject.include?("会員登録完了のお知らせ") } => :pokermon_register_success
 end
