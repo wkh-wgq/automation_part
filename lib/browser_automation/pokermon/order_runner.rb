@@ -3,11 +3,11 @@ module BrowserAutomation
     class OrderRunner < BaseRunner
       attr_reader :email
       def initialize(email, password:, products:)
+        initialize_page(email.split(".").first)
         logger.info "用户(#{email})开始下单流程"
         @email = email
         @password = password
         @products = products
-        initialize_page(email.split(".").first)
         @login_retry_count = 0
       end
 
@@ -28,12 +28,17 @@ module BrowserAutomation
       end
 
       def validate_address
-        # todo
-        # raise CustomError.new("收获地址错误", :incorrect_address)
+        human_like_click("text=会員情報変更")
+        human_like_move_to_element(page.locator("#address-level2"))
+        if !page.locator("#address-line2").input_value.include?("アライビル５階") || !page.locator("#address-level2").input_value.include?("新宿区高田馬場")
+          raise CustomError.new("收获地址错误", :incorrect_address)
+        end
       end
 
       def login
+        human_like_move_to_top
         human_like_click("text=ログイン ／ 会員登録", wait_for_navigation: true)
+        human_like_move_to_element(page.locator("#form1Button"))
         human_like_click("#login-form-email")
         # 输入帐号
         page.locator("#login-form-email").type(email, delay: rand(50..200))
@@ -47,7 +52,11 @@ module BrowserAutomation
         page.keyboard.press("Enter")
         sleep(rand(5..10))
         unless page.url == MY_URL
-          raise "登陆失败！" if @login_retry_count >= 3
+          logger.error "登陆报错：#{page.locator(".comErrorBox").inner_text}"
+          if page.locator(".comErrorBox").inner_text == "メールアドレスまたはパスワードが一致しませんでした。"
+            @password = "1234qwer."
+          end
+          raise "登陆失败！" if @login_retry_count >= 2
           @login_retry_count += 1
           login
         end
