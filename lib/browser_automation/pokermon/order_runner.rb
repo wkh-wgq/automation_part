@@ -13,7 +13,7 @@ module BrowserAutomation
 
       def run
         go_home_page
-        %w[random_browse login validate_address shopping fill_order_no].each do |method|
+        %w[validate_network queue_up random_browse login validate_address shopping fill_order_no].each do |method|
           send(:execute_with_log, method)
         end
         logger.info "用户(#{email})下单完成"

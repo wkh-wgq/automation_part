@@ -14,6 +14,11 @@ module BrowserAutomation
         page.goto(ROOT_URL, waitUntil: "domcontentloaded")
       end
 
+      # 校验网络是否被限制访问
+      def validate_network
+        raise "网络被限制访问！" if page.title == RESTRICTED_ACCESS_TITLE
+      end
+
       # 随机浏览
       def random_browse
         # return if rand < 0.3
@@ -27,6 +32,22 @@ module BrowserAutomation
         block.call
         human_like_click("text=新商品", wait_for_navigation: true)
         block.call
+      end
+
+      def queue_up
+        return if page.title != QUEUE_UP_TITLE
+        logger.info "开始排队"
+        while (page.wait_for_load_state(state: "load"); page.title == QUEUE_UP_TITLE)
+          sleep 5
+        end
+        # while !page.locator("#buttonConfirmRedirect").visible?
+        #   sleep 5
+        # end
+        logger.info "排队完成"
+        sleep rand(4.0..8.0)
+        # 点击进入网站按钮
+        # page.locator("#buttonConfirmRedirect").click
+        # logger.info "用户(#{account_no})进入网站"
       end
     end
   end
