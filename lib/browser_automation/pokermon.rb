@@ -62,5 +62,28 @@ module BrowserAutomation
         error_address_result: error_address_result
       }
     end
+
+    def self.lottery_won_pay(emails)
+      succ_result = []
+      fail_result = []
+      error_info_result = []
+      emails.each do |email|
+        result = BrowserAutomation::Pokermon::LotteryWonPayRunner.new(
+          email, password: "1234Asdf."
+        ).run
+        if result[:success]
+          succ_result << { email: result[:email], order_no: result[:order_no] }
+        elsif result[:error_code].present?
+          error_info_result << result[:email]
+        else
+          fail_result << result[:email]
+        end
+      end
+      {
+        succ_result: succ_result,
+        fail_result: fail_result,
+        error_info_result: error_info_result
+      }
+    end
   end # end module Pokermon
 end # end module BrowseAutomation

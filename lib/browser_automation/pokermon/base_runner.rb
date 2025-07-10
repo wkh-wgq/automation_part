@@ -26,6 +26,7 @@ module BrowserAutomation
           human_like_click_of_element(page.locator("ul.cart-list > li a.remove-product").first)
         end
         human_delay
+        human_like_click("text=マイページ", wait_for_navigation: true)
       end
 
       # 随机浏览
@@ -46,8 +47,14 @@ module BrowserAutomation
       def queue_up
         return if page.title != QUEUE_UP_TITLE
         logger.info "开始排队"
-        while (page.wait_for_load_state(state: "load"); page.title == QUEUE_UP_TITLE)
-          sleep 5
+        while true
+          begin
+            page.wait_for_load_state(state: "load")
+            break if page.title != QUEUE_UP_TITLE
+            sleep 5
+          rescue Playwright::Error => _e
+            sleep 2
+          end
         end
         # while !page.locator("#buttonConfirmRedirect").visible?
         #   sleep 5
@@ -57,6 +64,16 @@ module BrowserAutomation
         # 点击进入网站按钮
         # page.locator("#buttonConfirmRedirect").click
         # logger.info "用户(#{account_no})进入网站"
+      end
+
+      def validate_address
+        human_like_click("text=会員情報変更")
+        human_like_move_to_element(page.locator("#address-level2"))
+        if !page.locator("#address-line2").input_value.include?("アライビル５階") || !page.locator("#address-level2").input_value.include?("新宿区高田馬場")
+          raise CustomError.new("收获地址错误", :incorrect_address)
+        end
+        human_like_move_to_top
+        human_like_click("text=マイページ")
       end
     end
   end
