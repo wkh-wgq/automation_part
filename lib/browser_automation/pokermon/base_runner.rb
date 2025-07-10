@@ -19,6 +19,15 @@ module BrowserAutomation
         raise "网络被限制访问！" if page.title == RESTRICTED_ACCESS_TITLE
       end
 
+      # 清空购物车
+      def clear_cart
+        human_like_click('a[href="/cart/"]', wait_for_navigation: true)
+        while page.locator("ul.cart-list > li a.remove-product").count > 0
+          human_like_click_of_element(page.locator("ul.cart-list > li a.remove-product").first)
+        end
+        human_delay
+      end
+
       # 随机浏览
       def random_browse
         # return if rand < 0.3

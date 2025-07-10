@@ -13,7 +13,7 @@ module BrowserAutomation
 
       def run
         go_home_page
-        %w[validate_network queue_up random_browse login validate_address shopping fill_order_no].each do |method|
+        %w[validate_network queue_up random_browse login validate_address clear_cart shopping fill_order_no].each do |method|
           send(:execute_with_log, method)
         end
         logger.info "用户(#{email})下单完成"
@@ -33,6 +33,8 @@ module BrowserAutomation
         if !page.locator("#address-line2").input_value.include?("アライビル５階") || !page.locator("#address-level2").input_value.include?("新宿区高田馬場")
           raise CustomError.new("收获地址错误", :incorrect_address)
         end
+        human_like_move_to_top
+        human_like_click("text=マイページ")
       end
 
       def login
@@ -53,13 +55,14 @@ module BrowserAutomation
         sleep(rand(5..10))
         unless page.url == MY_URL
           logger.error "登陆报错：#{page.locator(".comErrorBox").inner_text}"
-          if page.locator(".comErrorBox").inner_text == "メールアドレスまたはパスワードが一致しませんでした。"
+          if page.locator(".comErrorBox").inner_text.include?("メールアドレスまたはパスワードが一致しませんでした")
             @password = "1234qwer."
           end
           raise "登陆失败！" if @login_retry_count >= 2
           @login_retry_count += 1
           login
         end
+        logger.info "登陆成功!"
       end
 
       def shopping
