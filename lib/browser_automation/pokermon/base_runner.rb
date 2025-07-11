@@ -23,7 +23,7 @@ module BrowserAutomation
       def clear_cart
         human_like_click('a[href="/cart/"]', wait_for_navigation: true)
         while page.locator("ul.cart-list > li a.remove-product").count > 0
-          human_like_click_of_element(page.locator("ul.cart-list > li a.remove-product").first)
+          human_like_click_of_element(page.locator("ul.cart-list > li a.remove-product").first, wait_for_navigation: true)
         end
         human_delay
         human_like_click("text=マイページ", wait_for_navigation: true)

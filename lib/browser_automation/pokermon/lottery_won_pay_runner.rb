@@ -32,11 +32,11 @@ module BrowserAutomation
         human_like_move_to_element(page.locator("text=注文へ進む"))
         human_like_click("text=注文へ進む")
 
-        human_delay(3, 5)
+        human_delay(7, 10)
 
         human_like_move_to_element(page.locator("text=予約する"))
         human_like_click("text=予約する")
-        sleep(rand(2..5))
+        sleep(rand(5..7))
         human_like_click("text=注文手続きへ進む")
         human_delay
 
