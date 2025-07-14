@@ -25,7 +25,9 @@ module BrowserAutomation
         sleep(rand(0.6..1.2))
         page.keyboard.press("Enter")
         sleep(rand(7..10))
-        unless page.url == MY_URL
+        if page.url == MY_URL
+          logger.info "登陆成功!"
+        else
           logger.error "登陆报错：#{page.locator(".comErrorBox").inner_text}"
           if page.locator(".comErrorBox").inner_text.include?("メールアドレスまたはパスワードが一致しませんでした")
             @password = "1234qwer."
@@ -34,7 +36,6 @@ module BrowserAutomation
           @login_retry_count += 1
           login
         end
-        logger.info "登陆成功!"
       end
 
       def execute_with_log(method)

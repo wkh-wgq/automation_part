@@ -28,12 +28,12 @@ module BrowserAutomation
         human_like_click("text=レジに進む")
         human_like_move_to_element(page.locator(".submit-shipping"))
         human_like_click(".submit-shipping")
-        sleep(rand(3..5))
+        human_delay(3, 5)
         human_like_move_to_element(page.locator("text=代金引換"))
         human_like_click("text=代金引換")
         human_like_move_to_element(page.locator("text=ご注文内容を確認する"))
         human_like_click("text=ご注文内容を確認する")
-        sleep(rand(3..5))
+        human_delay(3, 5)
         human_like_move_to_element(page.locator("text=注文を確定する").last)
         human_like_click_of_element(page.locator("text=注文を確定する").last)
       end
@@ -47,13 +47,14 @@ module BrowserAutomation
       # 加入购物车
       def add_cart(link, quantity)
         page.goto link
+        human_delay(0.2, 0.5)
         human_like_move_to_element(page.locator("text=カートに入れる"))
         # human_like_click("#quantity")
         page.select_option("#quantity", value: quantity.to_s)
         human_like_click("text=カートに入れる")
-        sleep(rand(2..5))
+        human_delay(2, 5)
         human_like_click("text=注文手続きへ進む")
-        sleep(rand(1..3))
+        human_delay(1, 3)
       end
 
       # 回填订单号
