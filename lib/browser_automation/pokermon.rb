@@ -63,6 +63,7 @@ module BrowserAutomation
       }
     end
 
+    # 抽奖中奖支付
     def self.lottery_won_pay(emails)
       succ_result = []
       fail_result = []
@@ -83,6 +84,46 @@ module BrowserAutomation
         succ_result: succ_result,
         fail_result: fail_result,
         error_info_result: error_info_result
+      }
+    end
+
+    # 修改收货地址
+    def self.modify_address(emails)
+      succ_result = []
+      fail_result = []
+      emails.each do |email|
+        result = BrowserAutomation::Pokermon::ModifyAddressRunner.new(
+          email, password: "1234Asdf."
+        ).run
+        if result[:success]
+          succ_result << { email: result[:email], mobile: result[:mobile] }
+        else
+          fail_result << result[:email]
+        end
+      end
+      {
+        succ_result: succ_result,
+        fail_result: fail_result
+      }
+    end
+
+    # 修改密码
+    def self.modify_password(emails)
+      succ_result = []
+      fail_result = []
+      emails.each do |email|
+        result = BrowserAutomation::Pokermon::ModifyPasswordRunner.new(
+          email, password: "1234Asdf."
+        ).run
+        if result[:success]
+          succ_result << { email: result[:email] }
+        else
+          fail_result << result[:email]
+        end
+      end
+      {
+        succ_result: succ_result,
+        fail_result: fail_result
       }
     end
   end # end module Pokermon
