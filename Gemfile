@@ -62,7 +62,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "playwright-ruby-client", "~> 1.51"
+gem "playwright-ruby-client", "~> 1.53"
 
 # 检测文本编码
 gem "rchardet", "~> 1.9"
