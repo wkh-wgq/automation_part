@@ -3,6 +3,7 @@ module BrowserAutomation
   class BaseRunner
     delegate :logger, to: :Rails
     MU, SIGMA = 0.5, 0.15
+    LOCATOR_TIMEOUT = 10_000
 
     PLAYWRIGHT_HOST = ENV.fetch("PLAYWRIGHT_HOST", "localhost")
     PLAYWRIGHT_PORT = ENV.fetch("PLAYWRIGHT_PORT", "8888")
@@ -66,7 +67,7 @@ module BrowserAutomation
 
     def human_like_click(selector, steps: 30, move_delay: (0.01..0.03), click_delay: (0.1..0.3), wait_for_navigation: false, navigation_timeout: 30_000)
       # 找到目标元素并获取它的位置信息
-      element = page.wait_for_selector(selector)
+      element = page.wait_for_selector(selector, timeout: LOCATOR_TIMEOUT)
       human_like_click_of_element(
         element,
         steps: steps,
@@ -143,6 +144,7 @@ module BrowserAutomation
     # 判断元素是否在视口内
     def element_in_viewport?(element)
       bounding_box = element.bounding_box
+      raise "无法获取元素位置" unless bounding_box
       viewport_size = page.viewport_size
       # 检查元素是否在视口内(去掉上下各200px)
       bounding_box["y"] + bounding_box["height"] > 200 && bounding_box["y"] < (viewport_size[:height] - 200)
