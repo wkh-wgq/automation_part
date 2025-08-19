@@ -10,11 +10,13 @@ class PokermonMailbox < ApplicationMailbox
   end
 
   def recipient
-    @recipient ||= body_decoded_text[/收件人:\s*([^\s\r\n<>]+)/, 1]
+    @recipient ||= begin
+      body_decoded_text[/收件人:\s*([^\s\r\n<>]+)/, 1] || body_decoded_text[/To:\s*([^\s\r\n<>]+)/, 1]
+    end
   end
 
   def sent_at
-    body_decoded_text[/发送时间[:：]\s*(\d{4}年\d{1,2}月\d{1,2}日\s*\d{1,2}:\d{2})/, 1]
+    body_decoded_text[/发送时间[:：]\s*(\d{4}年\d{1,2}月\d{1,2}日\s*\d{1,2}:\d{2})/, 1] || body_decoded_text[/Sent[:：]\s*(\d{4}年\d{1,2}月\d{1,2}日\s*\d{1,2}:\d{2})/, 1]
   end
 
   def create_parsed_email_record(&block)
