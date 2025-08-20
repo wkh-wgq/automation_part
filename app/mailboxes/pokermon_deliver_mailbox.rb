@@ -5,12 +5,15 @@ class PokermonDeliverMailbox < PokermonMailbox
     place_order_time = text[/【注文日】(.+?)\n/, 1]
     # 提取订单号
     order_number = text[/【注文番号】(\d+)/, 1]
+    # 提取订单号
+    delivery_order_number = text[/【送り状番号】(\d+)/, 1]
     # 提取商品信息
     product_info = parse_product_info
     create_parsed_email_record do |record|
       record.data = {
         place_order_time: place_order_time.strip,
         order_number: order_number,
+        delivery_order_number: delivery_order_number,
         products: product_info
       }
     end

@@ -33,7 +33,8 @@ module BrowserAutomation
       version = user_agent.split("Chrome/")[1].split(".").first
       ua = "\"Chromium\";v=\"#{version}\", \"#{browser == 'msedge' ? 'Microsoft Edge' : 'Google Chrome'}\";v=\"#{version}\", \"Not.A/Brand\";v=\"99\""
       @playwright_exec = Playwright.connect_to_playwright_server("ws://#{PLAYWRIGHT_HOST}:#{PLAYWRIGHT_PORT}/ws?browser=chromium")
-      user_data_dir = File.join(Dir.pwd, "tmp", "user_data", account_dir_name)
+      # user_data_dir = File.join(Dir.pwd, "tmp", "user_data", account_dir_name)
+      user_data_dir = File.join(Dir.pwd, "template", "initialize_user_data")
       @context = @playwright_exec.playwright.chromium.launch_persistent_context(
         user_data_dir,
         channel: browser,
