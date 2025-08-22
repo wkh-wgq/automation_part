@@ -34,8 +34,8 @@ class PokermonLotteryWonMailbox < PokermonMailbox
 
     # 用正则提取出名称和数量
     merged_lines.map do |line|
-      if match = line.match(/(\d{13})[ 　]+(.+?)[ 　]+[\d,]+円[（(](\d+)個[）)]/)
-        { product_code: match[1].strip, product_name: match[2].strip, quantity: match[3].to_i }
+      if match = line.match(/(\d{13})[ 　]+(.+?)[ 　]+([\d,]+)円[（(](\d+)個[）)]/)
+        { product_code: match[1].strip, product_name: match[2].strip, price: match[3].gsub(",", ""), quantity: match[4].to_i }
       end
     end.compact
   end
