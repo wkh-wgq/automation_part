@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
   resources :parsed_email_records
-  namespace :sites do
-    resources :pokemons
-  end
-  resources :virtual_users
+
+  get "/captcha/pokemon", to: "captcha#show"
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

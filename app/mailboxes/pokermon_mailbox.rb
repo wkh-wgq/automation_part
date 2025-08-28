@@ -11,7 +11,7 @@ class PokermonMailbox < ApplicationMailbox
 
   def recipient
     @recipient ||= begin
-      body_decoded_text[/收件人:\s*([^\s\r\n<>]+)/, 1] || body_decoded_text[/To:\s*([^\s\r\n<>]+)/, 1]
+      body_decoded_text[/^(?:To:|收件人:)\s*(?:.*?<)?([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})>?/, 1]
     end
   end
 
