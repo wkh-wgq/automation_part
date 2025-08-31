@@ -5,7 +5,7 @@ Rails.application.configure do
   config.action_mailbox.ingress = :mailgun
 
   if ENV["ENABLE_RAILS_CONDUCTOR"] == "true"
-    config.middleware.use "ConductorAuth"
+    config.middleware.use ConductorAuth
   end
 
   # Settings specified here will take precedence over those in config/application.rb.
