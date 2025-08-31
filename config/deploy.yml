@@ -54,6 +54,8 @@ env:
     PLAYWRIGHT_HOST: automation_part-playwright
     PLAYWRIGHT_PORT: 8888
 
+    ENABLE_RAILS_CONDUCTOR: true 
+
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
 
