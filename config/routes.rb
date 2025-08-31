@@ -15,29 +15,4 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-
-  # 只在特定条件下启用 Rails Conductor
-  if Rails.env.development? || ENV['ENABLE_RAILS_CONDUCTOR'] == 'true'
-    # 添加认证中间件
-    class ConductorAuth
-      def initialize(app)
-        @app = app
-      end
-
-      def call(env)
-        if env['PATH_INFO'].start_with?('/rails/conductor')
-          # 简单的 HTTP Basic Auth
-          auth = Rack::Auth::Basic.new(@app) do |username, password|
-            username == ENV['CONDUCTOR_USERNAME'] && password == ENV['CONDUCTOR_PASSWORD']
-          end
-          auth.call(env)
-        else
-          @app.call(env)
-        end
-      end
-    end
-
-    # 应用认证中间件
-    Rails.application.config.middleware.use ConductorAuth
-  end
 end

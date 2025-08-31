@@ -4,6 +4,10 @@ Rails.application.configure do
   # Prepare the ingress controller used to receive mail
   config.action_mailbox.ingress = :mailgun
 
+  if ENV["ENABLE_RAILS_CONDUCTOR"] == "true"
+    config.middleware.use "ConductorAuth"
+  end
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
