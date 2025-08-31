@@ -22,4 +22,6 @@ class ApplicationMailbox < ActionMailbox::Base
   routing ->(inbound_email) { inbound_email.mail.subject.include?("会員登録完了のお知らせ") } => :pokermon_register_success
   # 登陆验证码
   routing ->(inbound_email) { inbound_email.mail.subject.include?("ログイン用パスコードのお知らせ") } => :pokermon_login_captcha
+  # 转发验证
+  routing ->(inbound_email) { inbound_email.mail.subject.include?("腾讯企业邮箱自动转发验证邮件") } => :tencent_auto_forwarding_verification
 end
