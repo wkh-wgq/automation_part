@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :parsed_email_records
+  resources :parsed_email_records do
+    member do
+      get :original_mail
+    end
+  end
 
   get "/captcha/pokemon", to: "captcha#show"
 

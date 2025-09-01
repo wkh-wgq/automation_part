@@ -68,3 +68,7 @@ gem "playwright-ruby-client", "~> 1.51"
 gem "rchardet", "~> 1.9"
 
 gem "csv", "~> 3.3"
+
+gem "kaminari", "~> 1.2"
+
+gem "cssbundling-rails", "~> 1.4"

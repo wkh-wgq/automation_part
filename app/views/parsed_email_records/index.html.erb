@@ -1,16 +1,37 @@
 <p style="color: green"><%= notice %></p>
 
-<% content_for :title, "Parsed email records" %>
+<% content_for :title, "mails" %>
 
-<h1>Parsed email records</h1>
+<div class="col-12 mt-3">
+  <h6 class="text-secondary mb-3">邮件列表</h6>
 
-<div id="parsed_email_records">
-  <% @parsed_email_records.each do |parsed_email_record| %>
-    <%= render parsed_email_record %>
-    <p>
-      <%= link_to "Show this parsed email record", parsed_email_record %>
-    </p>
-  <% end %>
+  <div class="row g-0">
+    <div class="col-auto mb-3">
+      <%= form_tag parsed_email_records_path, method: 'get' do %>
+        <div class="input-group">
+          <%= text_field_tag 'email', params[:email], id: 'search_email', class: 'form-control form-control-sm shadow-none search', placeholder: '邮箱' %>
+          <%= select_tag 'type', options_for_select(type_for_select, params[:type]), id: 'search_type', class: "form-select" %>
+          <div class="input-group-text bg-transparent">
+            <%= submit_tag '查询', style: 'border: none; background-color: transparent;' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">邮箱</th>
+        <th scope="col">类型</th>
+        <th scope="col">发送时间</th>
+        <th scope="col">创建时间</th>
+        <th class="text-end" scope="col">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render @parsed_email_records %>
+    </tbody>
+  </table>
+  <%= paginate @parsed_email_records%>
 </div>
-
-<%= link_to "New parsed email record", new_parsed_email_record_path %>

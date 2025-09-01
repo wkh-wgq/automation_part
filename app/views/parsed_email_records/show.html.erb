@@ -1,10 +1,41 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @parsed_email_record %>
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-9">
+        <h5>详情</h5>
+      </div>
+      <div class="col-3" style="text-align: end">
+        <%= link_to "返回", parsed_email_records_path, class: 'btn btn-primary btn-sm' %>
+      </div>
+    </div>
+  </div>
 
-<div>
-  <%= link_to "Edit this parsed email record", edit_parsed_email_record_path(@parsed_email_record) %> |
-  <%= link_to "Back to parsed email records", parsed_email_records_path %>
+  <div class="card-body">
+    <div class="mb-3 mt-3">
+      <%= label_tag '邮箱', nil, class: 'form-label' %>
+      <%= tag.p @parsed_email_record.email, class: 'form-control' %>
+    </div>
 
-  <%= button_to "Destroy this parsed email record", @parsed_email_record, method: :delete %>
+    <div class="mb-3 mt-3">
+      <%= label_tag '类型', nil, class: 'form-label' %>
+      <%= tag.p parse_type(@parsed_email_record.type), class: 'form-control' %>
+    </div>
+
+    <div class="mb-3 mt-3">
+      <%= label_tag '发送时间', nil, class: 'form-label' %>
+      <%= tag.p @parsed_email_record.sent_at, class: 'form-control' %>
+    </div>
+
+    <div class="mb-3 mt-3">
+      <%= label_tag '创建时间', nil, class: 'form-label' %>
+      <%= tag.p @parsed_email_record.created_at.strftime("%Y-%m-%d %H:%M:%S"), class: 'form-control' %>
+    </div>
+
+    <div class="mb-3 mt-3">
+      <%= label_tag '扩展信息', nil, class: 'form-label' %>
+      <%= tag.p @parsed_email_record.data, class: 'form-control', style: 'height: 100px;' %>
+    </div>
+  </div>
 </div>

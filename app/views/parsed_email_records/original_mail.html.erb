@@ -1,0 +1,26 @@
+<p style="color: green"><%= notice %></p>
+
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-9">
+        <h5>原始邮件</h5>
+      </div>
+      <div class="col-3" style="text-align: end">
+        <%= link_to "返回", parsed_email_records_path, class: 'btn btn-primary btn-sm' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="mb-3 mt-3">
+      <%= label_tag '标题', nil, class: 'form-label' %>
+      <%= tag.p @subject, class: 'form-control' %>
+    </div>
+
+    <div class="mb-3 mt-3">
+      <%= label_tag '邮件内容', nil, class: 'form-label' %>
+      <%= tag.p @content_text, class: 'form-control', style: 'height: 800px;' %>
+    </div>
+  </div>
+</div>

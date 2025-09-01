@@ -1,9 +1,12 @@
 class ParsedEmailRecordsController < ApplicationController
-  before_action :set_parsed_email_record, only: %i[ show edit update destroy ]
+  before_action :set_parsed_email_record, only: %i[ show edit update destroy original_mail ]
 
   # GET /parsed_email_records or /parsed_email_records.json
   def index
-    @parsed_email_records = ParsedEmailRecord.all
+    @parsed_email_records = ParsedEmailRecord
+    @parsed_email_records = @parsed_email_records.where(type: params[:type]) if params[:type].present?
+    @parsed_email_records = @parsed_email_records.where(email: params[:email]) if params[:email].present?
+    @parsed_email_records = @parsed_email_records.order(created_at: :desc).page(page_params)
   end
 
   # GET /parsed_email_records/1 or /parsed_email_records/1.json
@@ -54,6 +57,20 @@ class ParsedEmailRecordsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to parsed_email_records_path, status: :see_other, notice: "Parsed email record was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def original_mail
+    mail = @parsed_email_record.inbound_email.mail
+    @subject = mail.subject
+    if mail.text_part.present?
+      @content_text = mail.text_part.decoded
+    else
+      raw_body = mail.body.decoded.gsub(/\\x([0-9a-fA-F]{2})/) { |m| $1.hex.chr }
+      # 解析原始编码
+      detected = CharDet.detect(raw_body)
+      original_encoding = detected["encoding"] || "UTF-8"
+      @content_text = raw_body.force_encoding(original_encoding).encode("UTF-8", invalid: :replace, undef: :replace)
     end
   end
 
