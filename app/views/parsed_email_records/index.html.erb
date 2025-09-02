@@ -12,7 +12,7 @@
           <%= text_field_tag 'email', params[:email], id: 'search_email', class: 'form-control form-control-sm shadow-none search', placeholder: '邮箱' %>
           <%= select_tag 'type', options_for_select(type_for_select, params[:type]), id: 'search_type', class: "form-select" %>
           <div class="input-group-text bg-transparent">
-            <%= submit_tag '查询', style: 'border: none; background-color: transparent;' %>
+            <%= submit_tag '查询', class: "btn btn-primary" %>
           </div>
         </div>
       <% end %>
