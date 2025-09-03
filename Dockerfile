@@ -62,8 +62,7 @@ RUN bundle exec bootsnap precompile app/ lib/
 RUN which sass && sass --version && ./node_modules/.bin/sass --version
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN yarn build:css && SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
+RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 RUN rm -rf node_modules
 
