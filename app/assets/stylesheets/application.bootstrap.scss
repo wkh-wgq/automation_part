@@ -1,17 +1,3 @@
-// $btn-link-focus-shadow-rgb: #0d6efd !default;
-$min-contrast-ratio: 4; // 降低对比度要求（可选）
-$primary: #0d6efd;
-$primary-text-emphasis: #052c65; // 手动设置主要颜色的强调文本色
-
-// 或者直接设置所有需要的颜色变量
-$primary: #0d6efd;
-$secondary: #6c757d;
-$success: #198754;
-$info: #0dcaf0;
-$warning: #ffc107;
-$danger: #dc3545;
-$light: #f8f9fa;
-$dark: #212529;
-
+$btn-link-focus-shadow-rgb: #0d6efd !default;
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
