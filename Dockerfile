@@ -51,6 +51,7 @@ RUN bundle install && \
 # Install node modules
 COPY package.json yarn.lock ./
 RUN yarn install --immutable
+ENV PATH=/rails/node_modules/.bin:$PATH
 
 # Copy application code
 COPY . .
