@@ -61,6 +61,8 @@ RUN bundle exec bootsnap precompile app/ lib/
 
 RUN which sass && sass --version && ./node_modules/.bin/sass --version
 
+RUN node_modules/.bin/sass --verbose ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules
+
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
