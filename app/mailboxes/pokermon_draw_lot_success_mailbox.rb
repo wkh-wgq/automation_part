@@ -10,7 +10,7 @@ class PokermonDrawLotSuccessMailbox < PokermonMailbox
 
   def parse_product_info
     # 提取商品信息行
-    product_line = body_decoded_text[/【商品情報】\r\n\s*(.+)/, 1]
+    product_line = text[/【商品情報】\r\n\s*(.+)/, 1]
     if product_line =~ /(\d{13})\u3000(.+?)\u3000[\d,]+円（(\d+)個）/
       product_code = $1
       product_name = $2

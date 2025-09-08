@@ -1,7 +1,6 @@
 class PokermonRegisterMailbox < PokermonMailbox
   # 接收宝可梦注册邮件，并提取其中的注册链接进行注册
   def process
-    text = body_decoded_text
     # 提取注册链接
     register_link = text[/▼URL\s*\n\s*(https:\/\/www\.pokemoncenter-online\.com\/new-customer\/\?token=[^\s]+)/i, 1]
     create_parsed_email_record do |record|

@@ -1,6 +1,5 @@
 class PokermonReturnOrderMailbox < PokermonMailbox
   def process
-    text = body_decoded_text
     # 提取下单时间
     place_order_time = text[/■ご注文日時：([0-9:\-\s]+)/, 1]
     # 提取商品信息
@@ -15,7 +14,7 @@ class PokermonReturnOrderMailbox < PokermonMailbox
 
   def parse_product_info
     # 提取“■ご返品商品：”后面的部分
-    return_block = body_decoded_text.split("■ご返品商品：")[1]
+    return_block = text.split("■ご返品商品：")[1]
     return [] unless return_block
 
     # 提取到下一个空行或明显段落结束

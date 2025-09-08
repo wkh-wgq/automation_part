@@ -9,7 +9,7 @@ class PokermonLotteryWonMailbox < PokermonMailbox
   end
 
   def parse_product_info
-    return_block = body_decoded_text.split("【商品情報】")[1]
+    return_block = text.split("【商品情報】")[1]
     return [] unless return_block
 
     # 提取到下一个空行或明显段落结束

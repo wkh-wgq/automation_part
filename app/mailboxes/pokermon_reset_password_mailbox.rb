@@ -1,6 +1,5 @@
 class PokermonResetPasswordMailbox < PokermonMailbox
   def process
-    text = body_decoded_text
     # 提取注册链接
     reset_password_link = text[/https:\/\/www\.pokemoncenter-online\.com\/account-set-new-password\/\?passwordResetToken=[^\s]+/]
 
