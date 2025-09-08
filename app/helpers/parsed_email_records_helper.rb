@@ -2,7 +2,7 @@ module ParsedEmailRecordsHelper
   def type_for_select
     types_hash.map do |k, v|
       [ v, k ]
-    end.unshift([ "请选择邮箱", "" ])
+    end.unshift([ "请选择邮件类型", "" ])
   end
 
   def parse_type(type)
