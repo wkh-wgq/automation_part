@@ -19,14 +19,15 @@ class PokermonMailbox < ApplicationMailbox
     return @recipient if @recipient
     @recipient = mail.to.first if has_text_part?
     @recipient ||= body_decoded_text[/^(?:To:|收件人:)\s*(?:.*?<)?([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})>?/, 1]
+    @recipient ||= mail.to.first
   end
 
   def sent_at
-    if has_text_part?
-      Time.now.strftime("%Y-%m-%d %H:%M:%S")
-    else
-      body_decoded_text[/(?:发送时间|Sent)[:：]\s*(\d{4}年\d{1,2}月\d{1,2}日\s*\d{1,2}:\d{2})/, 1]
-    end
+    return @sent_at if @sent_at
+    now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+    @sent_at = now if has_text_part?
+    @sent_at ||= body_decoded_text[/(?:发送时间|Sent)[:：]\s*(\d{4}年\d{1,2}月\d{1,2}日\s*\d{1,2}:\d{2})/, 1]
+    @sent_at ||= now
   end
 
   def create_parsed_email_record(&block)
