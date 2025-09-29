@@ -1,4 +1,5 @@
 <p style="color: green"><%= notice %></p>
+<p style="color: red"><%= alert %></p>
 
 <% content_for :title, "mails" %>
 
@@ -6,16 +7,20 @@
   <h6 class="text-secondary mb-3">邮件列表</h6>
 
   <div class="row g-0">
-    <div class="col-auto mb-3">
+    <div class="col-auto mb-3 d-flex">
       <%= form_tag parsed_email_records_path, method: 'get' do %>
         <div class="input-group">
           <%= text_field_tag 'email', params[:email], id: 'search_email', class: 'form-control form-control-sm shadow-none search', placeholder: '邮箱' %>
           <%= select_tag 'type', options_for_select(type_for_select, params[:type]), id: 'search_type', class: "form-select" %>
+          <%= datetime_field_tag 'created_at', params[:created_at], id: 'search_created_at', class: 'form-control', placeholder: '发送时间' %>
           <div class="input-group-text bg-transparent">
             <%= submit_tag '查询', class: "btn btn-primary" %>
           </div>
         </div>
       <% end %>
+      <div class="input-group-text bg-transparent">
+        <%= link_to "导出", export_csv_parsed_email_records_path(created_at: params[:created_at], type: params[:type]), class: "btn btn-primary" %>
+      </div>
     </div>
   </div>
 

@@ -6,7 +6,32 @@ class ParsedEmailRecordsController < ApplicationController
     @parsed_email_records = ParsedEmailRecord
     @parsed_email_records = @parsed_email_records.where(type: params[:type]) if params[:type].present?
     @parsed_email_records = @parsed_email_records.where(email: params[:email]) if params[:email].present?
+    @parsed_email_records = @parsed_email_records.where("created_at > ?", Time.zone.parse(params[:created_at])) if params[:created_at].present?
     @parsed_email_records = @parsed_email_records.order(created_at: :desc).page(page_params)
+  end
+
+  def export_csv
+    time = Time.zone.parse(params[:created_at]) rescue nil
+    type = params[:type]
+
+    if type.blank? || time.nil?
+      flash[:alert] = "缺少导出参数(类型和时间范围)"
+      redirect_to parsed_email_records_path and return
+    end
+
+    # 需要对结果根据email去重
+    records = ParsedEmailRecord.where(type: type).where("created_at > ?", time).group_by(&:email).values.map(&:first)
+    # 生成csv数据
+    begin
+      klass = "Exporters::ParsedEmailRecord::#{type.classify}Exporter".constantize.new(records)
+      csv_data = klass.generate_csv_data
+    rescue NameError => _e
+      return redirect_with_alert("暂不支持的导出类型")
+    rescue Exception => e
+      return redirect_with_alert("导出csv失败: #{e.message}")
+    end
+
+    send_data csv_data, filename: "#{type}-#{time.to_date}.csv", type: "text/csv", disposition: "attachment"
   end
 
   # GET /parsed_email_records/1 or /parsed_email_records/1.json
@@ -83,5 +108,10 @@ class ParsedEmailRecordsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def parsed_email_record_params
       params.expect(parsed_email_record: [ :inbound_email_id, :email, :type, :data, :sent_at ])
+    end
+
+    def redirect_with_alert(message)
+      flash[:alert] = message
+      redirect_to parsed_email_records_path
     end
 end

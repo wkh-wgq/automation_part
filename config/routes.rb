@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   resources :parsed_email_records do
+    collection do
+      get :export_csv
+    end
+
     member do
       get :original_mail
     end
