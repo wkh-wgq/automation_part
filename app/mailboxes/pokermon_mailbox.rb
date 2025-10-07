@@ -18,7 +18,7 @@ class PokermonMailbox < ApplicationMailbox
   def recipient
     return @recipient if @recipient
     @recipient = mail.to.first if has_text_part?
-    @recipient ||= body_decoded_text[/^(?:To:|收件人:)\s*(?:.*?<)?([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})>?/, 1]
+    @recipient ||= body_decoded_text[/(?:To:|收件人:)\s*(?:.*?<)?([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})>?/, 1]
     @recipient ||= mail.to.first
   end
 
