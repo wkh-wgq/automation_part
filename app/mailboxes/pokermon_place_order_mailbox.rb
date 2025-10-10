@@ -4,12 +4,25 @@ class PokermonPlaceOrderMailbox < PokermonMailbox
     place_order_time = text[/【注文日】(.+?)\n/, 1]
     # 提取订单号
     order_number = text[/【注文番号】(\d+)/, 1]
+
+    total_payment = text[/【支払合計】([\d,]+)円/, 1]
+
+    shipping_fee = text[/【送料】([\d,]+)円/, 1]
+
+    handling_fee = text[/【手数料】([\d,]+)円/, 1]
+
+    address = text[/【お届け先】([\s\S]+?)【お届け予定日】/, 1]
+
     # 提取商品信息
     product_info = parse_product_info
     create_parsed_email_record do |record|
       record.data = {
-        place_order_time: place_order_time.strip,
+        place_order_time: place_order_time,
         order_number: order_number,
+        total_payment: total_payment&.gsub(",", "").to_f,
+        shipping_fee: shipping_fee&.gsub(",", "").to_f,
+        handling_fee: handling_fee&.gsub(",", "").to_f,
+        address: address,
         products: product_info
       }
     end
@@ -42,8 +55,8 @@ class PokermonPlaceOrderMailbox < PokermonMailbox
 
     # 用正则提取出名称和数量
     merged_lines.map do |line|
-      if match = line.match(/(\d{13})\s+(.+?)\s+\((\d+)個\)/)
-        { product_code: match[1].strip, product_name: match[2].strip, quantity: match[3].to_i }
+      if match = line.match(/(\d{13})\s+(.+?)\s+\((\d+)個\)\s+小計\s+([\d,]+)円/)
+        { product_code: match[1].strip, product_name: match[2].strip, quantity: match[3].to_i, price: match[4]&.gsub(",", "").to_f }
       end
     end.compact
   end
