@@ -23,7 +23,7 @@ class PokermonMailbox < ApplicationMailbox
 
   def sent_at
     return @sent_at if @sent_at
-    now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+    now = Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")
     @sent_at = now if has_text_part?
     @sent_at ||= text[/(?:发送时间|Sent)[:：]\s*(\d{4}年\d{1,2}月\d{1,2}日\s*\d{1,2}:\d{2})/, 1]
     @sent_at ||= now
