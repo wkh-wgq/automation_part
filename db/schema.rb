@@ -51,15 +51,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_025914) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "execute_records", force: :cascade do |t|
-    t.string "email"
-    t.string "action"
-    t.json "params"
-    t.json "result"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "parsed_email_records", force: :cascade do |t|
     t.integer "inbound_email_id"
     t.string "email"
@@ -72,32 +63,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_025914) do
     t.index ["type"], name: "index_parsed_email_records_on_type"
   end
 
-  create_table "sites_pokermons", force: :cascade do |t|
-    t.string "nickname"
-    t.string "kana"
-    t.string "registry_cellphone"
-    t.string "registry_postcode"
-    t.string "registry_fandi"
-    t.string "reg_password"
-    t.bigint "virtual_user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["virtual_user_id"], name: "index_sites_pokermons_on_virtual_user_id"
-  end
-
-  create_table "virtual_users", force: :cascade do |t|
-    t.string "last_name"
-    t.string "first_name"
-    t.string "gender"
-    t.string "email"
-    t.string "civ_style"
-    t.date "birthdate"
-    t.string "domain"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "sites_pokermons", "virtual_users"
 end

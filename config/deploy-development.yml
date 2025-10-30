@@ -7,7 +7,8 @@ image: wangkaihua/automation_part
 # Deploy to these servers.
 servers:
   web:
-    - auto.usingnow.tech
+    # - auto.usingnow.tech
+    - 8.219.62.38
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -19,7 +20,8 @@ servers:
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
   ssl: true
-  host: auto.usingnow.tech
+  # host: auto.usingnow.tech
+  host: 8.219.62.38
 
 # Credentials for your image host.
 registry:
@@ -81,7 +83,8 @@ asset_path: /rails/public/assets
 builder:
   arch: amd64
 
-  remote: ssh://root@47.79.93.44
+  # remote: ssh://root@47.79.93.44
+  remote: ssh://root@8.219.62.38
 
   # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
   # remote: ssh://docker@docker-builder-server
@@ -123,7 +126,8 @@ ssh:
 accessories:
   db:
     image: postgres:16.1
-    host: auto.usingnow.tech
+    # host: auto.usingnow.tech
+    host: 8.219.62.38
     port: '127.0.0.1:5432:5432'
     env:
       clear:
@@ -132,7 +136,20 @@ accessories:
         - POSTGRES_PASSWORD
     directories:
       - postgres-data:/var/lib/postgresql/data
-  playwright:
-    image: wangkaihua/playwright_with_xvfb:v2
-    host: auto.usingnow.tech
-    port: '127.0.0.1:8888:8888'
+  # playwright:
+  #   image: wangkaihua/playwright_with_xvfb:v2
+  #   host: auto.usingnow.tech
+  #   port: '127.0.0.1:8888:8888'
+  pg_backup:
+    image: wangkaihua/pg_backup:v4
+    # host: auto.usingnow.tech
+    host: 8.219.62.38
+    env:
+      clear:
+        POSTGRES_HOST: automation_part-db
+        POSTGRES_USER: postgres
+        POSTGRES_DB: automation_part_production
+        OSS_BUCKET: automation-part-backup
+        BACKUP_DIR: postgres_backups_test
+      secret:
+        - POSTGRES_PASSWORD
