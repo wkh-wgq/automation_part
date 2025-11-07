@@ -3,17 +3,7 @@ class PokermonRegisterMailbox < PokermonMailbox
   def process
     # 提取注册链接
     register_link = text[/▼URL\s*\n\s*(https:\/\/www\.pokemoncenter-online\.com\/new-customer\/\?token=[^\s]+)/i, 1]
-    create_parsed_email_record do |record|
-      record.data = {
-        register_link: register_link
-      }
-    end
-    virtual_user = VirtualUser.where(email: recipient).first
-    return logger.warn "邮箱(#{recipient})未查询到虚拟用户！" unless virtual_user
-    pokermon_info = virtual_user.pokermon
-    return logger.warn "邮箱(#{recipient})未查询到宝可梦注册信息" unless pokermon_info
-    Rails.cache.write("pokermon.email-#{recipient}-register_link", register_link, expires_in: 20.minutes)
-    logger.info "异步注册宝可梦账号(#{recipient})..."
-    PokermonRegisterJob.perform_later(recipient, register_link)
+    Rails.cache.write("pokemon.#{recipient}.register_link", register_link, expires_in: 20.minutes)
+    logger.info "===#{recipient}的注册链接:#{register_link}"
   end
 end

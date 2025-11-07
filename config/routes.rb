@@ -9,7 +9,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/captcha/pokemon", to: "captcha#show"
+  get "/pokemon/captcha", to: "pokemon#captcha"
+  get "/pokemon/register_link", to: "pokemon#register_link"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
