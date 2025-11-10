@@ -8,7 +8,7 @@ image: wangkaihua/automation_part
 servers:
   web:
     # - auto.usingnow.tech
-    - 8.219.62.38
+    - auto.zj.cn
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -21,7 +21,7 @@ servers:
 proxy:
   ssl: true
   # host: auto.usingnow.tech
-  host: 8.219.62.38
+  host: auto.zj.cn
 
 # Credentials for your image host.
 registry:
@@ -84,7 +84,7 @@ builder:
   arch: amd64
 
   # remote: ssh://root@47.79.93.44
-  remote: ssh://root@8.219.62.38
+  remote: ssh://root@auto.zj.cn
 
   # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
   # remote: ssh://docker@docker-builder-server
@@ -127,7 +127,7 @@ accessories:
   db:
     image: postgres:16.1
     # host: auto.usingnow.tech
-    host: 8.219.62.38
+    host: auto.zj.cn
     port: '127.0.0.1:5432:5432'
     env:
       clear:
@@ -143,7 +143,7 @@ accessories:
   pg_backup:
     image: wangkaihua/pg_backup:v4
     # host: auto.usingnow.tech
-    host: 8.219.62.38
+    host: auto.zj.cn
     env:
       clear:
         POSTGRES_HOST: automation_part-db
