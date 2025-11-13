@@ -153,3 +153,18 @@ accessories:
         BACKUP_DIR: postgres_backups_test
       secret:
         - POSTGRES_PASSWORD
+  log_fluent:
+    image: wangkaihua/log_fluent:v9
+    host: auto.zj.cn
+    volumes:
+      - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+      - "/var/log/flb-storage:/var/log/flb-storage"
+      - "/var/log/fluentbit:/var/log/fluentbit"
+    env:
+      clear:
+        AWS_REGION: cn-beijing
+        AWS_S3_BUCKET: automation-part-logs
+        AWS_S3_ENDPOINT: oss-cn-beijing.aliyuncs.com
+      secret:
+        - AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY
