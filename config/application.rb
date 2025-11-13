@@ -29,7 +29,7 @@ module AutomationPart
     # 自定义日志格式
     config.log_formatter = proc do |severity, timestamp, progname, msg|
       t = timestamp.in_time_zone(Rails.application.config.time_zone)
-      "#{t.to_formatted_s(:db)} [#{severity}] #{msg}\n"
+      "[#{t.strftime('%Y-%m-%d %H:%M:%S.%L')}] [#{severity}] #{msg}\n"
     end
   end
 end
