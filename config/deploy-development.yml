@@ -154,7 +154,7 @@ accessories:
       secret:
         - POSTGRES_PASSWORD
   log_fluent:
-    image: wangkaihua/log_fluent:v9
+    image: wangkaihua/log_fluent:v10
     host: auto.zj.cn
     volumes:
       - "/var/lib/docker/containers:/var/lib/docker/containers:ro"

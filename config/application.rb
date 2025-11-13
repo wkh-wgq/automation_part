@@ -24,11 +24,12 @@ module AutomationPart
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.time_zone = "Beijing"
+    config.time_zone = "Asia/Shanghai"
 
     # 自定义日志格式
     config.log_formatter = proc do |severity, timestamp, progname, msg|
-      "#{timestamp.to_formatted_s(:db)} [#{severity}] #{msg}\n"
+      t = timestamp.in_time_zone(Rails.application.config.time_zone)
+      "#{t.to_formatted_s(:db)} [#{severity}] #{msg}\n"
     end
   end
 end
