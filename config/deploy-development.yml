@@ -136,10 +136,6 @@ accessories:
         - POSTGRES_PASSWORD
     directories:
       - postgres-data:/var/lib/postgresql/data
-  # playwright:
-  #   image: wangkaihua/playwright_with_xvfb:v2
-  #   host: auto.usingnow.tech
-  #   port: '127.0.0.1:8888:8888'
   pg_backup:
     image: wangkaihua/pg_backup:v4
     # host: auto.usingnow.tech
@@ -153,18 +149,18 @@ accessories:
         BACKUP_DIR: postgres_backups_test
       secret:
         - POSTGRES_PASSWORD
-  log_fluent:
-    image: wangkaihua/log_fluent:v10
-    host: auto.zj.cn
-    volumes:
-      - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
-      - "/var/log/flb-storage:/var/log/flb-storage"
-      - "/var/log/fluentbit:/var/log/fluentbit"
-    env:
-      clear:
-        AWS_REGION: cn-beijing
-        AWS_S3_BUCKET: automation-part-logs
-        AWS_S3_ENDPOINT: oss-cn-beijing.aliyuncs.com
-      secret:
-        - AWS_ACCESS_KEY_ID
-        - AWS_SECRET_ACCESS_KEY
+  # log_fluent:
+  #   image: wangkaihua/log_fluent:v8
+  #   host: auto.zj.cn
+  #   volumes:
+  #     - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+  #     - "/var/log/flb-storage:/var/log/flb-storage"
+  #     - "/var/log/fluentbit:/var/log/fluentbit"
+  #   env:
+  #     clear:
+  #       AWS_REGION: cn-beijing
+  #       AWS_S3_BUCKET: automation-part-logs
+  #       AWS_S3_ENDPOINT: oss-cn-beijing.aliyuncs.com
+  #     secret:
+  #       - AWS_ACCESS_KEY_ID
+  #       - AWS_SECRET_ACCESS_KEY
