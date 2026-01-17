@@ -20,7 +20,8 @@ class ParsedEmailRecordsController < ApplicationController
     end
 
     # 需要对结果根据email去重
-    records = ParsedEmailRecord.where(type: type).where("created_at > ?", time).group_by(&:email).values.map(&:first)
+    # records = ParsedEmailRecord.where(type: type).where("created_at > ?", time).group_by(&:email).values.map(&:first)
+    records = ParsedEmailRecord.where(type: type).where("created_at > ?", time)
     # 生成csv数据
     begin
       klass = "Exporters::ParsedEmailRecord::#{type.classify}Exporter".constantize.new(records)
