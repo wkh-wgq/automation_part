@@ -21,6 +21,9 @@
       <div class="input-group-text bg-transparent">
         <%= link_to "导出", export_csv_parsed_email_records_path(created_at: params[:created_at], type: params[:type]), class: "btn btn-primary" %>
       </div>
+      <div class="input-group-text bg-transparent">
+        <%= link_to "导出(去重)", export_csv_parsed_email_records_path(created_at: params[:created_at], type: params[:type], deduplicate: "1"), class: "btn btn-primary" %>
+      </div>
     </div>
   </div>
 

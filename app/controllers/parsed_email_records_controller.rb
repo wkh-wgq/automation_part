@@ -18,10 +18,9 @@ class ParsedEmailRecordsController < ApplicationController
       flash[:alert] = "缺少导出参数(类型和时间范围)"
       redirect_to parsed_email_records_path and return
     end
-
-    # 需要对结果根据email去重
-    # records = ParsedEmailRecord.where(type: type).where("created_at > ?", time).group_by(&:email).values.map(&:first)
     records = ParsedEmailRecord.where(type: type).where("created_at > ?", time)
+    # 需要对结果根据email去重
+    records = records.group_by(&:email).values.map(&:first) if params[:deduplicate] == "1"
     # 生成csv数据
     begin
       klass = "Exporters::ParsedEmailRecord::#{type.classify}Exporter".constantize.new(records)
